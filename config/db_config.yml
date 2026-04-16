@@ -1,0 +1,6 @@
+database:
+  host: localhost
+  port: 5432
+  user: nba_user
+  password: nba_pass
+  dbname: nba_database

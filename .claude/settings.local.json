@@ -5,7 +5,13 @@
       "Bash(rm *)",
       "Bash(conda run *)",
       "Bash(D:/Miniconda/envs/nba_ml/python.exe -)",
-      "Bash(D:/Miniconda/envs/nba_ml/python.exe -c ' *)"
+      "Bash(D:/Miniconda/envs/nba_ml/python.exe -c ' *)",
+      "Bash(python3 *)",
+      "Bash(pip install *)",
+      "Bash(pip freeze *)",
+      "Bash(timeout 8 streamlit run main.py --server.headless true --server.port 8501)",
+      "Bash(timeout 8 streamlit run main.py --server.headless true --server.port 8502)",
+      "Bash(grep -v \"^$\")"
     ]
   }
 }

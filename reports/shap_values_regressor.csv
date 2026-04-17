@@ -1,0 +1,15 @@
+feature,mean_shap
+pts_last5,3.82849
+ft_pct_last10,0.88822
+fg_pct_last5,0.69962
+ft_pct_last5,0.52284
+pts_trend,0.42509
+reb_last10,0.34385
+defense_rating,0.3218
+min_last5,0.28462
+ast_last5,0.24761
+fg_pct_last10,0.1615
+reb_last5,0.08927
+position,0.04723
+is_home,0.04275
+shot_volume_last5,0.01713

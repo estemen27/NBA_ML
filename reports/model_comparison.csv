@@ -1,4 +1,4 @@
-,Modelo,Accuracy,F1,AUC-ROC,Tiempo_s,RMSE,MAE,R2
+Unnamed: 0,Modelo,Accuracy,F1,AUC-ROC,Tiempo_s,RMSE,MAE,R2
 clasificacion,Baseline,0.5,0.6667,0.5,0.0,,,
 clasificacion,Log. Regression,0.6948,0.6987,0.7638,0.19,,,
 clasificacion,Random Forest,0.6948,0.7214,0.7422,4.85,,,

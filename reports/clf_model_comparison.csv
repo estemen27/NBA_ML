@@ -1,0 +1,6 @@
+Modelo,Accuracy,F1,AUC-ROC,Tiempo_s
+Baseline,0.5,0.6667,0.5,0.0
+Log. Regression,0.6948,0.6987,0.7638,0.19
+Random Forest,0.6948,0.7214,0.7422,4.85
+XGBoost,0.6835,0.6876,0.7372,2.11
+LR Calibrado,0.6835,0.6853,0.7536,0.05

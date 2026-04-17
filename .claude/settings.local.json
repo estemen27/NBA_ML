@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(rm *)",
+      "Bash(conda run *)",
+      "Bash(D:/Miniconda/envs/nba_ml/python.exe -)",
+      "Bash(D:/Miniconda/envs/nba_ml/python.exe -c ' *)"
+    ]
+  }
+}

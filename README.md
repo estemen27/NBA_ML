@@ -2,7 +2,7 @@
 
 Un pipeline de machine learning que predice los resultados de partidos NBA y el rendimiento anotador individual de jugadores para la temporada regular 2025–26. El proyecto cubre el ciclo de vida completo de ciencia de datos: ingesta, exploración, ingeniería de características, modelado, evaluación y un dashboard interactivo listo para producción.
 
----
+
 
 ## Descripción del Proyecto
 
@@ -13,7 +13,7 @@ Se abordan dos problemas predictivos:
 
 Ambos modelos se sirven a través de un dashboard multipágina en Streamlit que consulta una base de datos PostgreSQL en tiempo real.
 
----
+
 
 ## Resultados
 
@@ -25,7 +25,7 @@ Ambos modelos se sirven a través de un dashboard multipágina en Streamlit que 
 | Predicción de Puntos | Regresión Ridge | R² | 0,3901 |
 | Predicción de Puntos | Regresión Ridge | MAE | 4,99 pts |
 
----
+
 
 ## Dataset
 
@@ -40,7 +40,7 @@ Datos obtenidos de la API oficial de Estadísticas NBA mediante la librería `nb
 | `fact_team_season_stats` | 30 agregados de temporada |
 | `fact_player_season_stats` | 582 agregados de temporada |
 
----
+
 
 ## Estructura del Proyecto
 
@@ -174,7 +174,7 @@ streamlit run main.py
 
 La aplicación se abre en `http://localhost:8501`.
 
----
+
 
 ## Páginas del Dashboard
 
@@ -201,7 +201,7 @@ Tres pestañas para explorar la base de datos en vivo:
 - **Clasificación de Jugadores**: Tabla de líderes de jugadores filtrable con mínimo de partidos ajustable y ordenamiento por cualquier estadística.
 - **Comparación de Equipos**: Gráfico de radar cara a cara comparando dos equipos seleccionados en seis dimensiones, con un gráfico de tendencia anotadora durante toda la temporada.
 
----
+
 
 ## Ingeniería de Características
 
@@ -241,7 +241,7 @@ Todas las características usan un desplazamiento temporal (`shift(1)`) antes de
 | `position` | Posición inferida (0 = Base, 1 = Alero, 2 = Pívot) |
 | `is_home` | Indicador binario local/visitante |
 
----
+
 
 ## Modelos
 
@@ -257,7 +257,6 @@ Seleccionada por su capacidad para manejar características de ventana deslizant
 
 Alternativas evaluadas: Regresión Lineal, Random Forest, XGBoost.
 
----
 
 ## Conclusiones del Proyecto
 
@@ -273,7 +272,7 @@ Alternativas evaluadas: Regresión Lineal, Random Forest, XGBoost.
 
 6. **El paso de calibración mejoró la confiabilidad respecto a la regresión logística sin calibrar**: tras la calibración, las probabilidades predichas entre 60–70% correspondieron empíricamente a tasas de victoria reales dentro de ese rango, haciendo que la salida sea adecuada para interpretación probabilística en el gauge del dashboard.
 
----
+
 
 ## Stack Tecnológico
 
@@ -288,7 +287,7 @@ Alternativas evaluadas: Regresión Lineal, Random Forest, XGBoost.
 | Visualización | Plotly |
 | Entorno | Python 3.10+ |
 
----
+
 
 ## Variables de Entorno
 
@@ -302,8 +301,3 @@ POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 ```
 
----
-
-## Licencia
-
-MIT

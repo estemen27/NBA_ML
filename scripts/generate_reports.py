@@ -1,19 +1,26 @@
 import warnings
 warnings.filterwarnings("ignore")
 
+<<<<<<< HEAD
 import os
+=======
+>>>>>>> 900acc635a2728964cd92f7c4cd976b1395290c2
 import pandas as pd
 import numpy as np
 import joblib
 import psycopg2
 import shap
 from pathlib import Path
+<<<<<<< HEAD
 from dotenv import load_dotenv
+=======
+>>>>>>> 900acc635a2728964cd92f7c4cd976b1395290c2
 
 BASE_DIR = Path(__file__).parent.parent
 REPORTS_DIR = BASE_DIR / "reports"
 REPORTS_DIR.mkdir(exist_ok=True)
 
+<<<<<<< HEAD
 load_dotenv(BASE_DIR / ".env")
 
 DB = dict(
@@ -23,6 +30,9 @@ DB = dict(
     password=os.getenv("POSTGRES_PASSWORD", "nba_pass"),
     dbname=os.getenv("POSTGRES_DB", "nba_database"),
 )
+=======
+DB = dict(host="localhost", port=5432, user="nba_user", password="nba_pass", dbname="nba_database")
+>>>>>>> 900acc635a2728964cd92f7c4cd976b1395290c2
 
 FEAT_TEAM = [
     "is_home", "pts_last5", "pts_against_last5", "fg_pct_last5", "plus_minus_last5",
@@ -39,7 +49,11 @@ FEAT_PLAYER = [
 
 
 def get_conn():
+<<<<<<< HEAD
     return psycopg2.connect(**DB, client_encoding="UTF8")
+=======
+    return psycopg2.connect(**DB)
+>>>>>>> 900acc635a2728964cd92f7c4cd976b1395290c2
 
 
 def build_predictions_classification(clf, test_team, teams_df):

@@ -5,8 +5,8 @@ import psycopg2
 from contextlib import contextmanager
 
 _DB = dict(
-    host=os.getenv("POSTGRES_HOST", "localhost"),
-    port=int(os.getenv("POSTGRES_PORT", 5432)),
+    host=os.getenv("POSTGRES_HOST", "127.0.0.1"),
+    port=int(os.getenv("POSTGRES_PORT", 5433)),
     user=os.getenv("POSTGRES_USER", "nba_user"),
     password=os.getenv("POSTGRES_PASSWORD", "nba_pass"),
     dbname=os.getenv("POSTGRES_DB", "nba_database"),

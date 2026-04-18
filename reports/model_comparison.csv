@@ -1,11 +1,11 @@
-,Modelo,Accuracy,F1,AUC-ROC,Tiempo_s,RMSE,MAE,R2
+Unnamed: 0,Modelo,Accuracy,F1,AUC-ROC,Tiempo_s,RMSE,MAE,R2
 clasificacion,Baseline,0.5,0.6667,0.5,0.0,,,
-clasificacion,Log. Regression,0.6948,0.6987,0.7638,0.19,,,
-clasificacion,Random Forest,0.6948,0.7214,0.7422,4.85,,,
-clasificacion,XGBoost,0.6835,0.6876,0.7372,2.11,,,
-clasificacion,LR Calibrado,0.6835,0.6853,0.7536,0.05,,,
+clasificacion,Log. Regression,0.6948,0.6987,0.7638,0.42,,,
+clasificacion,Random Forest,0.6948,0.7214,0.7422,29.26,,,
+clasificacion,XGBoost,0.6966,0.7138,0.7485,5.81,,,
+clasificacion,LR Calibrado,0.6835,0.6853,0.7536,0.18,,,
 regresion,Baseline,,,,0.0,8.3822,6.6133,-0.0001
-regresion,Lin. Regression,,,,0.01,6.5458,4.9909,0.3901
-regresion,Random Forest,,,,12.85,6.5648,5.0333,0.3865
-regresion,XGBoost,,,,3.48,6.5584,5.0277,0.3877
-regresion,Ridge,,,,0.12,6.5457,4.9908,0.3901
+regresion,Lin. Regression,,,,0.12,6.5458,4.9909,0.3901
+regresion,Random Forest,,,,51.91,6.5648,5.0333,0.3865
+regresion,XGBoost,,,,14.16,6.5785,5.0384,0.384
+regresion,Ridge,,,,0.49,6.5457,4.9908,0.3901

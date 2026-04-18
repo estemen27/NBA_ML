@@ -2,6 +2,7 @@ import os
 import time
 import logging
 import pandas as pd
+from requests.exceptions import RequestException
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 
@@ -24,18 +25,58 @@ logger = logging.getLogger(__name__)
 
 SEASON      = "2025-26"
 SEASON_TYPE = "Regular Season"
-DELAY       = 1  # segundos entre llamadas a la API
+DELAY       = 2  # segundos entre llamadas a la API
+NBA_TIMEOUT = 60
+NBA_MAX_RETRIES = 4
 
 
 
 def get_engine():
     user = os.getenv("POSTGRES_USER", "nba_user")
     pw   = os.getenv("POSTGRES_PASSWORD", "nba_pass")
-    host = os.getenv("POSTGRES_HOST", "localhost")
-    port = os.getenv("POSTGRES_PORT", "5432")
+    host = os.getenv("POSTGRES_HOST", "127.0.0.1")
+    port = os.getenv("POSTGRES_PORT", "5433")
     db   = os.getenv("POSTGRES_DB", "nba_database")
-    url  = f"postgresql+psycopg2://{user}:{pw}@{host}:{port}/{db}"
-    return create_engine(url)
+
+    url = f"postgresql+psycopg://{user}:{pw}@{host}:{port}/{db}"
+
+    return create_engine(
+        url,
+        connect_args={"client_encoding": "utf8"}
+    )
+
+
+def fetch_nba_dataframe(endpoint_cls, **params):
+    endpoint_name = endpoint_cls.__name__
+
+    for attempt in range(1, NBA_MAX_RETRIES + 1):
+        try:
+            time.sleep(DELAY)
+            endpoint = endpoint_cls(
+                timeout=NBA_TIMEOUT,
+                **params
+            )
+            return endpoint.get_data_frames()[0]
+        except (RequestException, ValueError, KeyError) as exc:
+            if attempt == NBA_MAX_RETRIES:
+                logger.exception(
+                    "%s fallo tras %s intentos. stats.nba.com cerro o devolvio "
+                    "una respuesta invalida.",
+                    endpoint_name,
+                    NBA_MAX_RETRIES
+                )
+                raise
+
+            wait_seconds = min(45, DELAY * (2 ** attempt))
+            logger.warning(
+                "%s fallo en intento %s/%s: %s. Reintentando en %ss...",
+                endpoint_name,
+                attempt,
+                NBA_MAX_RETRIES,
+                exc,
+                wait_seconds
+            )
+            time.sleep(wait_seconds)
 
 
 
@@ -165,11 +206,11 @@ def ingest_players(engine):
 
 def ingest_team_game_logs(engine):
     logger.info("Ingresando game logs de equipos (temporada 2025-26)...")
-    time.sleep(DELAY)
-    df = teamgamelogs.TeamGameLogs(
+    df = fetch_nba_dataframe(
+        teamgamelogs.TeamGameLogs,
         season_nullable=SEASON,
         season_type_nullable=SEASON_TYPE
-    ).get_data_frames()[0]
+    )
     df.columns = df.columns.str.lower()
     df["game_date"] = pd.to_datetime(df["game_date"])
     cols = ["game_id", "team_id", "game_date", "matchup", "wl",
@@ -183,11 +224,11 @@ def ingest_team_game_logs(engine):
 
 def ingest_player_game_logs(engine):
     logger.info("Ingresando game logs de jugadores (puede tardar 1-2 min)...")
-    time.sleep(DELAY)
-    df = playergamelogs.PlayerGameLogs(
+    df = fetch_nba_dataframe(
+        playergamelogs.PlayerGameLogs,
         season_nullable=SEASON,
         season_type_nullable=SEASON_TYPE
-    ).get_data_frames()[0]
+    )
     df.columns = df.columns.str.lower()
     df["game_date"] = pd.to_datetime(df["game_date"])
     cols = ["game_id", "player_id", "team_id", "game_date", "matchup", "wl",
@@ -201,12 +242,12 @@ def ingest_player_game_logs(engine):
 
 def ingest_player_season_stats(engine):
     logger.info("Ingresando estadísticas de temporada por jugador...")
-    time.sleep(DELAY)
-    df = leaguedashplayerstats.LeagueDashPlayerStats(
+    df = fetch_nba_dataframe(
+        leaguedashplayerstats.LeagueDashPlayerStats,
         season=SEASON,
         season_type_all_star=SEASON_TYPE,
         per_mode_detailed="PerGame"
-    ).get_data_frames()[0]
+    )
     df.columns = df.columns.str.lower()
     df["season"] = SEASON
     df = df.rename(columns={"team_abbreviation": "team_abbrev"})
@@ -221,12 +262,12 @@ def ingest_player_season_stats(engine):
 
 def ingest_team_season_stats(engine):
     logger.info("Ingresando estadísticas de temporada por equipo...")
-    time.sleep(DELAY)
-    df = leaguedashteamstats.LeagueDashTeamStats(
+    df = fetch_nba_dataframe(
+        leaguedashteamstats.LeagueDashTeamStats,
         season=SEASON,
         season_type_all_star=SEASON_TYPE,
         per_mode_detailed="PerGame"
-    ).get_data_frames()[0]
+    )
     df.columns = df.columns.str.lower()
     df["season"] = SEASON
     df = df.rename(columns={
